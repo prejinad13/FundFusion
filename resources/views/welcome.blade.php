@@ -250,7 +250,7 @@
                         <img src="{{asset('new-dashboard/img/logos/fundfusion_black.png')}}" class="h-6 mr-3 sm:h-9"
                             alt="" /></a>
                     <span class="block text-sm text-center text-gray-500 dark:text-gray-400">
-                        <strong>FundFusion</strong> made with ❤️ by Dinesh Baral, Rojal Shakya & Rojina Upreti
+                        <strong>FundFusion</strong> Developed by Eurika KC, Prejina Dwa & Sushmita Ghimire.
                     </span>
                 </div>
             </div>

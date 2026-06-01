@@ -16,7 +16,7 @@
                     <!-- Footer -->
                     <footer class="content-footer footer bg-footer-theme text-center">
                         <div class="container-xxl py-2">
-                            <div class="mb-2 mb-md-0"><strong>FundFusion</strong> made with ❤️ by Dinesh Baral, Rojal Shakya & Rojina Upreti</div>
+                            <div class="mb-2 mb-md-0"><strong>FundFusion</strong> Developed by Eurika KC, Prejina Dwa and Sushmita Ghimire</div>
                         </div>
                     </footer>
                     <!-- / Footer -->

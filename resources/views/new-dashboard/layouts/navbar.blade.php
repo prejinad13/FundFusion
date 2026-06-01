@@ -10,7 +10,7 @@
         <!-- Search -->
         <div class="navbar-nav align-items-center">
             <div class="nav-item d-flex align-items-center">
-                Welcome {{Auth::user()->name ?? "Dinesh Baral"}}!
+                Welcome {{Auth::user()->name ?? "Prejina Dwa"}}!
             </div>
         </div>
         <!-- /Search -->
@@ -42,7 +42,7 @@
                                     </div>
                                 </div>
                                 <div class="flex-grow-1">
-                                    <span class="fw-semibold d-block">{{Auth::user()->name??"Dinesh Baral"}}</span>
+                                    <span class="fw-semibold d-block">{{Auth::user()->name??"Prejina Dwa"}}</span>
                                     <small class="text-muted">{{Str::ucfirst(Auth::user()->roles()->first()->name)}}</small>
                                 </div>
                             </div>
