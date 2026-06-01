@@ -77,4 +77,4 @@ var api = $easyzoom.data('easyZoom');
 @endif
 
 @yield('js')
-
+@stack('scripts')

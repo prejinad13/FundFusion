@@ -2,8 +2,6 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
-
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -15,42 +13,54 @@ class User extends Authenticatable implements MustVerifyEmail
 {
     use HasApiTokens, HasFactory, Notifiable, HasRoles;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
+    protected $guarded = ['id'];
 
-    protected $guarded=['id'];
-
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
     protected $hidden = [
         'password',
         'remember_token',
     ];
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'password' => 'hashed',
+        'password'          => 'hashed',
     ];
-
 
     public function sectors()
     {
         return $this->belongsToMany(Sector::class);
     }
 
+    
     public function ideas()
+   {
+        return $this->hasMany(Idea::class, 'investee_id');
+   }
+    // ── Connections ──────────────────────────────────────────────
+
+    /** Requests this user has SENT */
+    public function sentConnections()
     {
-        return $this->hasMany(Idea::class);
+        return $this->hasMany(Connection::class, 'sender_id');
+    }
+
+    /** Requests this user has RECEIVED */
+    public function receivedConnections()
+    {
+        return $this->hasMany(Connection::class, 'receiver_id');
+    }
+
+    /**
+     * Check connection status with another user.
+     * Returns: 'none' | 'pending' | 'accepted' | 'rejected'
+     */
+    public function connectionStatusWith(int $userId): string
+    {
+        $connection = Connection::where(function ($q) use ($userId) {
+            $q->where('sender_id', $this->id)->where('receiver_id', $userId);
+        })->orWhere(function ($q) use ($userId) {
+            $q->where('sender_id', $userId)->where('receiver_id', $this->id);
+        })->first();
+
+        return $connection ? $connection->status : 'none';
     }
 }

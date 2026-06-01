@@ -12,9 +12,9 @@
 
 <div class="row g-4">
     @foreach ($data['data'] as $datum)
-    <div class="col-xl-4 col-lg-6 col-md-6">
-        <div class="card">
-            <div class="card-body text-center">
+    <div class="col-xl-4 col-lg-6 col-md-6 d-flex">
+        <div class="card w-100 h-100">
+            <div class="card-body text-center d-flex flex-column">
                 {{-- <div class="dropdown btn-pinned">
                     <button type="button" class="btn dropdown-toggle hide-arrow p-0" data-bs-toggle="dropdown"
                         aria-expanded="false"><i class="bx bx-dots-vertical-rounded"></i></button>
@@ -27,8 +27,9 @@
                         <li><a class="dropdown-item text-danger" href="javascript:void(0);">Delete</a></li>
                     </ul>
                 </div> --}}
-                <div class="mx-auto mb-3">
-                    <img src="{{$datum->image?asset($datum->image):asset('new-dashboard/img/avatars/default.png')}}" alt="{{$datum->name}}" class="rounded-circle w-px-100">
+                <div class="mx-auto mb-3" style="width:100px; height:100px; overflow:hidden;">
+                    <img src="{{$datum->image?asset($datum->image):asset('new-dashboard/img/avatars/default.png')}}" alt="{{$datum->name}}" class="rounded-circle w-px-100"
+                     style="width:100%; height:100%; object-fit:cover;">
                 </div>
                 <h5 class="mb-1 card-title">{{$datum->name}}</h5>
                 <span>{{$datum->description}}</span>
@@ -54,7 +55,7 @@
                     </div>
                 </div> --}}
                 <div class="d-flex align-items-center justify-content-center">
-                    <a href="{{route('dashboard.investment.investor.profile',$datum->id)}}" class="btn btn-primary d-flex align-items-center me-3 w-100">Details</a>
+                    <a href="{{route('dashboard.investment.investor.profile',$datum->id)}}" class="btn btn-primary d-flex align-items-center mx-3 mb-4 w-100">Details</a>
                 </div>
             </div>
         </div>
