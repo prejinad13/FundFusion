@@ -19,11 +19,18 @@
             <li class="nav-item navbar-dropdown dropdown-user dropdown">
                 <a class="nav-link dropdown-toggle hide-arrow d-flex align-items-center" data-bs-toggle="dropdown">
                     <div class="text mx-3" style="cursor: pointer;">My Account</div>
-                    <div class="avatar avatar-online" style="width:40px; height:40px; overflow:hidden;">
+                    @php $unreadCount = Auth::user()->unreadNotifications->count(); @endphp
+                    <div class="avatar avatar-online position-relative" style="width:40px; height:40px;">
                         @if (Auth::user()->image)
                             <img src="{{ asset(Auth::user()->image) }}" class=" rounded-circle"  style="width:100%; height:100%; object-fit:cover;" />
                         @else
                             <img src="{{ asset('new-dashboard/img/avatars/default.png') }}" class=" rounded-circle"  style="width:100%; height:100%; object-fit:cover;" />
+                        @endif
+                        @if ($unreadCount > 0)
+                            <span class="badge rounded-pill bg-danger position-absolute d-flex align-items-center justify-content-center"
+                                  style="top: -4px; right: -4px; width: 18px; height: 18px; padding: 0; font-size: 10px; line-height: 1; border: 2px solid #fff; z-index: 1000;">
+                                {{ $unreadCount }}
+                            </span>
                         @endif
                     </div>
                 </a>

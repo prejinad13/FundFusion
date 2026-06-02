@@ -15,47 +15,14 @@
 
                     {{-- Video Field --}}
                     <div class="col-sm-12 mb-2">
-                        <label class="form-label">Explanation Video <small class="text-danger">*</small></label>
-
-                        {{-- Toggle buttons --}}
-                        <div class="mb-2 d-flex gap-2">
-                            <button type="button" class="btn btn-sm btn-outline-primary active" id="btn-url"
-                                onclick="switchVideoType('url')">
-                                <i class="bx bx-link me-1"></i> Video URL
-                            </button>
-                            <button type="button" class="btn btn-sm btn-outline-primary" id="btn-file"
-                                onclick="switchVideoType('file')">
-                                <i class="bx bx-upload me-1"></i> Upload File
-                            </button>
-                        </div>
-
-                        {{-- URL input --}}
-                        <div id="video-url-section">
-                            {!! Form::url('video_link', null, [
-                                'class' => 'form-control',
-                                'id' => 'video_link',
-                                'placeholder' => 'YouTube, Vimeo or any video URL',
-                            ]) !!}
-                            <small class="text-muted">Supports YouTube, Vimeo, or any direct video link</small>
-                            @error('video_link') <small class="text-danger d-block">{{$message}}</small> @enderror
-                        </div>
-
-                        {{-- File upload input --}}
-                        <div id="video-file-section" style="display:none;">
-                            <input type="file" name="video_file" id="video_file"
-                                class="form-control" accept="video/mp4,video/webm,video/ogg,video/quicktime">
-                            <small class="text-muted">Accepted formats: MP4, WebM, OGG, MOV (max 100MB)</small>
-                            @error('video_file') <small class="text-danger d-block">{{$message}}</small> @enderror
-
-                            {{-- Show existing video if editing --}}
-                            @isset($data['data'])
-                                @if(isset($data['data']->video_link) && Str::startsWith($data['data']->video_link, 'storage/'))
-                                    <div class="mt-2">
-                                        <small class="text-success"><i class="bx bx-check-circle me-1"></i>Current video uploaded. Upload a new file to replace it.</small>
-                                    </div>
-                                @endif
-                            @endisset
-                        </div>
+                        <label class="form-label" for="video_link">Explanation Video <small class="text-danger">*</small></label>
+                        {!! Form::url('video_link', null, [
+                            'class' => 'form-control',
+                            'id' => 'video_link',
+                            'placeholder' => 'YouTube, Vimeo or any video URL',
+                        ]) !!}
+                        <small class="text-muted">Supports YouTube, Vimeo, or any direct video link</small>
+                        @error('video_link') <small class="text-danger d-block">{{$message}}</small> @enderror
                     </div>
 
                     <div class="col-sm-5">
@@ -128,40 +95,3 @@
         </div>
     </div>
 </div>
-
-@push('scripts')
-<script>
-    // On page load, detect if current value is a file path and switch accordingly
-    document.addEventListener('DOMContentLoaded', function () {
-        var videoLink = "{{ isset($data['data']) ? $data['data']->video_link : '' }}";
-        if (videoLink && videoLink.startsWith('storage/')) {
-            switchVideoType('file');
-        }
-    });
-
-    function switchVideoType(type) {
-        var urlSection  = document.getElementById('video-url-section');
-        var fileSection = document.getElementById('video-file-section');
-        var btnUrl      = document.getElementById('btn-url');
-        var btnFile     = document.getElementById('btn-file');
-        var urlInput    = document.getElementById('video_link');
-        var fileInput   = document.getElementById('video_file');
-
-        if (type === 'url') {
-            urlSection.style.display  = 'block';
-            fileSection.style.display = 'none';
-            btnUrl.classList.add('active');
-            btnFile.classList.remove('active');
-            fileInput.disabled = true;
-            urlInput.disabled  = false;
-        } else {
-            urlSection.style.display  = 'none';
-            fileSection.style.display = 'block';
-            btnFile.classList.add('active');
-            btnUrl.classList.remove('active');
-            urlInput.disabled  = true;
-            fileInput.disabled = false;
-        }
-    }
-</script>
-@endpush

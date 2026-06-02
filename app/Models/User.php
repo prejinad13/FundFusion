@@ -63,4 +63,26 @@ class User extends Authenticatable implements MustVerifyEmail
 
         return $connection ? $connection->status : 'none';
     }
+
+    /**
+     * Get all investors connected to this user (accepted connection requests).
+     */
+    public function connectedInvestors()
+    {
+        $userIds = \App\Models\Connection::where('status', 'accepted')
+            ->where(function ($q) {
+                $q->where('sender_id', $this->id)->orWhere('receiver_id', $this->id);
+            })
+            ->get()
+            ->map(function ($conn) {
+                return $conn->sender_id == $this->id ? $conn->receiver_id : $conn->sender_id;
+            })
+            ->toArray();
+
+        return self::whereIn('id', $userIds)
+            ->whereHas('roles', function ($q) {
+                $q->where('name', 'investor');
+            })
+            ->get();
+    }
 }

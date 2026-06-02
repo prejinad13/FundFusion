@@ -137,34 +137,11 @@ class IdeaController extends BaseController
     }
 
     /**
-     * Handle video upload or URL.
+     * Handle video URL retrieval.
      * Returns the final video_link value to store.
      */
     private function handleVideoUpload($request, $existingVideoLink): string
     {
-        // If a file was uploaded, store it and return the path
-        if ($request->hasFile('video_file') && $request->file('video_file')->isValid()) {
-            // Delete old file if it was a stored file
-            if ($existingVideoLink && Str::startsWith($existingVideoLink, 'storage/')) {
-                $oldPath = Str::replaceFirst('storage/', '', $existingVideoLink);
-                Storage::disk('public')->delete($oldPath);
-            }
-
-            $user      = Auth::user();
-            $folder    = 'ideas/' . Str::slug($user->name) . '-' . $user->id;
-            $filename  = time() . '_' . Str::slug(pathinfo($request->file('video_file')->getClientOriginalName(), PATHINFO_FILENAME))
-                         . '.' . $request->file('video_file')->getClientOriginalExtension();
-
-            $path = $request->file('video_file')->storeAs($folder, $filename, 'public');
-            return 'storage/' . $path;
-        }
-
-        // If URL was provided, use it
-        if ($request->filled('video_link')) {
-            return $request->input('video_link');
-        }
-
-        // Fall back to existing value
-        return $existingVideoLink ?? '';
+        return $request->input('video_link') ?? '';
     }
 }

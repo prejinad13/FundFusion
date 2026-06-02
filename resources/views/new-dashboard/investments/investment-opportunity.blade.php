@@ -53,8 +53,8 @@
             <div class="card-body">
                 <div class="row">
                     @forelse ($data['data'] as $datum)
-                        <div class="col-sm-6 col-lg-4 my-3 d-flex">
-                            <div class="card p-2 h-100 shadow-none border">
+                        <div class="col-sm-6 col-lg-4 my-3 d-flex align-items-stretch">
+                            <div class="card p-2 w-100 d-flex flex-column shadow-none border">
                                     @php
                                         $videoUrl = $datum->video_link;
                                         $isDirectVideo = false;
@@ -89,26 +89,37 @@
                                         }
                                     @endphp
 
-                                    @if ($isDirectVideo)
-                                        <video class="w-100 rounded-2" height="200" controls style="background:#000; object-fit: cover;">
-                                            <source src="{{ $videoUrl }}">
-                                            Your browser does not support the video tag.
-                                        </video>
-                                    @elseif ($isEmbed)
-                                        <iframe class="w-100 rounded-2" height="200" src="{{ $videoUrl }}" frameborder="0"
-                                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                                            allowfullscreen></iframe>
-                                    @else
-                                        <div class="text-center py-4 bg-light rounded-2 d-flex flex-column align-items-center justify-content-center" style="height: 200px; background-color: #f1f2f6 !important;">
-                                            <i class="bx bx-video-off bx-lg text-muted mb-2"></i>
-                                            <span class="text-muted small">No video uploaded</span>
-                                        </div>
-                                    @endif
-                                </div>
-                                <div class="card-body p-3 pt-2 d-flex flex-column">
+                                    <div class="rounded-2 text-center mb-3">
+                                        @if ($isDirectVideo)
+                                            <video class="w-100 rounded-2" height="200" controls style="background:#000; object-fit: cover;">
+                                                <source src="{{ $videoUrl }}">
+                                                Your browser does not support the video tag.
+                                            </video>
+                                        @elseif ($isEmbed)
+                                            <iframe class="w-100 rounded-2" height="200" src="{{ $videoUrl }}" frameborder="0"
+                                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                                allowfullscreen></iframe>
+                                        @else
+                                            <div class="text-center py-4 bg-light rounded-2 d-flex flex-column align-items-center justify-content-center" style="height: 200px; background-color: #f1f2f6 !important;">
+                                                <i class="bx bx-video-off bx-lg text-muted mb-2"></i>
+                                                <span class="text-muted small">No video uploaded</span>
+                                            </div>
+                                        @endif
+                                    </div>
+                                <div class="card-body p-3 pt-2 d-flex flex-column flex-grow-1">
                                     <div class="d-flex justify-content-between align-items-baseline mb-3">
-                                        <small
-                                            class="badge bg-label-primary">{{Carbon\Carbon::parse($datum->created_at)->format('d M,Y')}}</small>
+                                        <div class="d-flex align-items-center gap-1 flex-wrap">
+                                            <small class="badge bg-label-primary">{{Carbon\Carbon::parse($datum->created_at)->format('d M,Y')}}</small>
+                                            @if (isset($datum->similarity_score))
+                                                @if ($datum->similarity_score >= 0.4999)
+                                                    <small class="badge text-white" style="background: linear-gradient(45deg, #28c76f, #00cfe8) !important;" data-bs-toggle="tooltip" title="High Match! Over 50% sector alignment."><i class="bx bxs-star me-1"></i> Recommended ({{ round($datum->similarity_score * 100) }}%)</small>
+                                                @elseif ($datum->similarity_score > 0)
+                                                    <small class="badge bg-label-info">{{ round($datum->similarity_score * 100) }}% Match</small>
+                                                @else
+                                                    <small class="badge bg-label-secondary">No Match</small>
+                                                @endif
+                                            @endif
+                                        </div>
                                         <small class="d-flex align-items-center justify-content-center gap-1 mb-0"
                                             style="text-align: right">
                                             <a href="{{route('dashboard.investment.investee.profile', $datum->investee->id)}}"><span

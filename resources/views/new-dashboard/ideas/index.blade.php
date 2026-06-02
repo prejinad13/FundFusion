@@ -39,16 +39,17 @@
                                 </div>
                             </td>
                             <td>
-                                @forelse ($datum->investors() as $investor)
                                 <ul class="list-unstyled users-list m-0 avatar-group d-flex align-items-center">
-                                    <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" class="avatar avatar-xs pull-up" aria-label="{{$investor->name}}" data-bs-original-title="{{$investor->name}}">
-                                      <img src="../assets/img/avatars/5.png" alt="Avatar" class="rounded-circle">
-                                    </li>
-                                  </ul>
-                                @empty
-                                  N/A
-                                @endforelse
-
+                                    @forelse ($datum->connectedInvestors() as $investor)
+                                        <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" class="avatar avatar-xs pull-up" aria-label="{{$investor->name}}" data-bs-original-title="{{$investor->name}}">
+                                            <a href="{{route('dashboard.investment.investor.profile', $investor->id)}}">
+                                                <img src="{{$investor->image ? asset($investor->image) : asset('new-dashboard/img/avatars/default.png')}}" alt="{{$investor->name}}" class="rounded-circle" style="object-fit: cover;">
+                                            </a>
+                                        </li>
+                                    @empty
+                                        <span class="text-muted">N/A</span>
+                                    @endforelse
+                                </ul>
                             </td>
                             <td>
                                 <form method="POST" action="{{ route('dashboard.ideas.changeStatus',$datum->id) }}">

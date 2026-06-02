@@ -19,29 +19,55 @@ class AddFormRequest extends FormRequest
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
+    // public function rules(): array
+    // {
+    //     return [
+    //        'name'=>'required',
+    //        'video_link'=>'required',
+    //        'team_size'=>'required',
+    //        'required_investment_amount'=>'required',
+    //        'return_on_investment'=>'required',
+    //        'short_description'=>'required',
+    //        'long_description'=>'required'
+    //     ];
+    // }
+
+    // public function messages()
+    // {
+    //     return[
+    //         'name.required'=>'Idea name required',
+    //         'video_link.required'=>'Explanation Video required',
+    //         'team_size.required'=>'Team size required',
+    //         'required_investment_amount.required'=>'Investment Amount required',
+    //         'return_on_investment.required'=>'ROI required',
+    //         'short_description.required'=>'Short description required',
+    //         'long_description.required'=>'Main description required'
+    //     ];
+    // }
     public function rules(): array
     {
         return [
-           'name'=>'required',
-           'video_link'=>'required',
-           'team_size'=>'required',
-           'required_investment_amount'=>'required',
-           'return_on_investment'=>'required',
-           'short_description'=>'required',
-           'long_description'=>'required'
+            'name'                       => 'required',
+            'video_link'                 => 'required|url',
+            'team_size'                  => 'required',
+            'required_investment_amount' => 'required',
+            'return_on_investment'       => 'required',
+            'short_description'          => 'required',
+            'long_description'           => 'required',
         ];
     }
 
     public function messages()
     {
-        return[
-            'name.required'=>'Idea name required',
-            'video_link.required'=>'Explanation Video required',
-            'team_size.required'=>'Team size required',
-            'required_investment_amount.required'=>'Investment Amount required',
-            'return_on_investment.required'=>'ROI required',
-            'short_description.required'=>'Short description required',
-            'long_description.required'=>'Main description required'
+        return [
+            'name.required'                       => 'Idea name required',
+            'video_link.required'                 => 'Explanation Video URL is required',
+            'video_link.url'                      => 'Explanation Video must be a valid URL',
+            'team_size.required'                  => 'Team size required',
+            'required_investment_amount.required' => 'Investment Amount required',
+            'return_on_investment.required'       => 'ROI required',
+            'short_description.required'          => 'Short description required',
+            'long_description.required'           => 'Main description required',
         ];
     }
 }

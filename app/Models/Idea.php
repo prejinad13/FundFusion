@@ -25,4 +25,9 @@ class Idea extends Model
     {
         return $this->belongsTo(User::class,'investee_id');
     }
+
+    public function connectedInvestors()
+    {
+        return $this->investee ? $this->investee->connectedInvestors() : collect();
+    }
 }
